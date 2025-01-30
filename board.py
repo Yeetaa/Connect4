@@ -1,3 +1,6 @@
+import copy
+
+
 class Board:
     ROWS = 6
     COLS = 7
@@ -23,6 +26,10 @@ class Board:
     def get_valid_columns(self):
         return [col for col in range(self.COLS) if self.grid[5][col] == self.EMPTY]
         #Gibt LISTE an validen Columns zurück
+
+    def copy(self):
+        return copy.deepcopy(self)
+        #Gibt Kopie des gegenwertigen Boards zurück um KI Züge simulieren zu lassen
 
     def check_win(self, piece):
         #!!!wenn´s funktioniert, nicht anrühren!!!
