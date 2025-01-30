@@ -21,7 +21,7 @@ class Board:
         #Placed das Piece oder gibt FALSE zurück
 
     def get_valid_columns(self):
-        return [col for col in range(self.COLS) if self.grid[0][col] == self.EMPTY]
+        return [col for col in range(self.COLS) if self.grid[5][col] == self.EMPTY]
         #Gibt LISTE an validen Columns zurück
 
     def check_win(self, piece):

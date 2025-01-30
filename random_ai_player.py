@@ -7,6 +7,12 @@ class Random_AI_Player(AI_Player):
         super().__init__(piece)
 
     def make_move(self, board):
-        col = random.choice(board.get_valid_columns())
+        valid_columns = board.get_valid_columns()  # Get available columns
+
+        if not valid_columns:  # Crashvorbeugung bei keinen möglichen Spalten
+            print("Ai hat keine Züge mehr!")
+            return False
+
+        col = random.choice(valid_columns)  # Pick a random valid column
         board.drop_piece(col, self.piece)
         print(f"Random AI placed in Spalte {col}")
