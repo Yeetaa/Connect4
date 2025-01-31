@@ -1,0 +1,5 @@
+Sources for Connect4
+
+-https://www.youtube.com/watch?v=XRVA5PMSKKE
+-https://www.coursesidekick.com/computer-science/2007505
+-http://blog.gamesolver.org/
