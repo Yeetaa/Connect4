@@ -6,6 +6,8 @@ from board import Board
 from player import Player
 from random_ai_player import Random_AI_Player
 from greedy_ai_player import Greedy_AI_Player
+from rath_ai_player import Rath_AI_Player
+from minimax import Minimax_AI_Player
 
 
 def play_game():
@@ -14,7 +16,7 @@ def play_game():
     board = Board()
     player1 = Player('X')  # Spieler
 
-    player2_selection = input(f"Random(1), Greedy(2), Minimax(3) oder Spieler(4): ")
+    player2_selection = input(f"Random(1), Greedy(2), Minimax(3), Rath(4) oder Spieler(5): ")
     print(player2_selection)
 
     if player2_selection == "1":
@@ -24,8 +26,12 @@ def play_game():
         player2 = Greedy_AI_Player('O')
         print(f"Du spielst gegen Greedy_AI")
     elif player2_selection == "3":
-        print("To be done!")
+        player2 = Minimax_AI_Player('O')
+        print("Du spielst gegen Minimax_AI")
     elif player2_selection == "4":
+        player2 = Rath_AI_Player('O')
+        print(f"Du spielst gegen Rath_AI")
+    elif player2_selection == "5":
         player2 = Player('O')
         print(f"Du spielst gegen einen anderen Spieler")
     else:
@@ -43,6 +49,7 @@ def play_game():
             if board.check_win(player1.piece):
                 board.print_board()
                 print("Spieler X Gewinnt!")
+                time.sleep(2)
                 break
         else:
             player2.make_move(board)  # Placeholder for AI logic

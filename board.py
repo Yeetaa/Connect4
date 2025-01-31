@@ -8,6 +8,8 @@ class Board:
 
     def __init__(self):
         self.grid = [[self.EMPTY for _ in range(self.COLS)] for _ in range(self.ROWS)]
+        self.last_piece_row = None
+        self.last_piece_col = None
         #Initialisierung mit "." in jedem Slot
 
     def print_board(self):
@@ -20,10 +22,15 @@ class Board:
     def drop_piece(self, col, piece):
         for row in range(self.ROWS):
             if self.grid[row][col] == self.EMPTY:
+                self.last_piece_row = row
+                self.last_piece_col = col
                 self.grid[row][col] = piece
                 return True
         return False  # Column ist voll (so wie ich)
         #Placed das Piece oder gibt FALSE zurück
+
+    def remove_last_piece(self):
+        self.grid[self.last_piece_row][self.last_piece_col] = self.EMPTY
 
     def get_valid_columns(self):
         return [col for col in range(self.COLS) if self.grid[5][col] == self.EMPTY]
