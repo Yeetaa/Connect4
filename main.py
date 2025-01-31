@@ -49,7 +49,7 @@ def play_game():
             if board.check_win(player1.piece):
                 board.print_board()
                 print("Spieler X Gewinnt!")
-                time.sleep(2)
+                time.sleep(1)
                 break
         else:
             player2.make_move(board)  # Placeholder for AI logic

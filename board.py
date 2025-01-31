@@ -17,6 +17,7 @@ class Board:
         print("Vier In Einer Reihe Gewinnt Das Spiel!")
         for row in reversed(self.grid):  # Print top-down Board
             print(" ".join(row))
+        print("-------------")
         print("0 1 2 3 4 5 6")  # Column numbers
 
     def drop_piece(self, col, piece):
