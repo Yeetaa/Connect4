@@ -8,9 +8,15 @@ class Greedy_AI_Player(AI_Player):
     def __init__(self, piece):
         super().__init__(piece)
 
+    def simulate_move(self, board, col, piece):
+        """Simuliert Zug mit Hilfe von kopiertem Board"""
+        temp_board = board.copy()  # Make a copy of the board
+        temp_board.drop_piece(col, piece)  # Simulate the move
+        return temp_board
+
     def make_move(self, board):
 
-        valid_columns = board.valid_columns
+        valid_columns = board.get_valid_columns()
         if not valid_columns:
             print(f"Es gibt keine möglichen Züge mehr!")
 
@@ -37,11 +43,5 @@ class Greedy_AI_Player(AI_Player):
         # 3. Spielt random
         col = random.choice(valid_columns)
         board.drop_piece(col, self.piece)
-        print(f"🤖 AI (Greedy) placed at column {col}")
 
 
-def simulate_move(self, board, col, piece):
-    """Simulates dropping a piece in a column and returns a temporary board."""
-    temp_board = board.copy()  # Make a copy of the board
-    temp_board.drop_piece(col, piece)  # Simulate the move
-    return temp_board

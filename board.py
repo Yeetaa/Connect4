@@ -11,6 +11,8 @@ class Board:
         #Initialisierung mit "." in jedem Slot
 
     def print_board(self):
+        print("\033c", end="")  #Cleared die Konsole zwischen Zügen
+        print("Vier In Einer Reihe Gewinnt Das Spiel!")
         for row in reversed(self.grid):  # Print top-down Board
             print(" ".join(row))
         print("0 1 2 3 4 5 6")  # Column numbers

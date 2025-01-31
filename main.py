@@ -1,8 +1,9 @@
+import time
 from random import Random
+import time
 
 from board import Board
 from player import Player
-from ai_player import AI_Player #eig. unnötig
 from random_ai_player import Random_AI_Player
 from greedy_ai_player import Greedy_AI_Player
 
@@ -10,19 +11,27 @@ from greedy_ai_player import Greedy_AI_Player
 def play_game():
     """Main game loop."""
 
-    if input("Random, Greedy oder Minimax: ") == "Random":
+    board = Board()
+    player1 = Player('X')  # Spieler
+
+    player2_selection = input(f"Random(1), Greedy(2), Minimax(3) oder Spieler(4): ")
+    print(player2_selection)
+
+    if player2_selection == "1":
         player2 = Random_AI_Player('O')
-    elif input("Random, Greedy oder Minimax: ") == "Greedy":
+        print(f"Du spielst gegen Random_AI")
+    elif player2_selection == "2":
         player2 = Greedy_AI_Player('O')
-    elif input("Random, Greedy oder Minimax: ") == "Minimax":
+        print(f"Du spielst gegen Greedy_AI")
+    elif player2_selection == "3":
         print("To be done!")
+    elif player2_selection == "4":
+        player2 = Player('O')
+        print(f"Du spielst gegen einen anderen Spieler")
     else:
         print("Fehler")
 
-
-    board = Board()
-    player1 = Player('X')   # Spieler
-    player2 = Greedy_AI_Player('O')  # AI Spieler
+    time.sleep(2)
 
     turn = 0  # 0 = Player 1; 1 = AI
 
