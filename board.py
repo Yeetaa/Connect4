@@ -37,6 +37,9 @@ class Board:
         return [col for col in range(self.COLS) if self.grid[5][col] == self.EMPTY]
         #Gibt LISTE an validen Columns zurück
 
+    def get_columns(self):
+        return self.COLS
+
     def copy(self):
         return copy.deepcopy(self)
         #Gibt Kopie des gegenwertigen Boards zurück um KI Züge simulieren zu lassen
@@ -69,3 +72,65 @@ class Board:
                     return True
 
         return False
+
+    def check_3_in_row(self, piece):
+        #!!!wenn´s funktioniert, nicht anrühren!!!
+
+        counter = 0
+
+        # Check horizontal
+        for row in range(self.ROWS):
+            for col in range(self.COLS - 3):
+                if all(self.grid[row][col + i] == piece for i in range(3)):
+                    counter += 3
+
+        # Check vertical
+        for row in range(self.ROWS - 3):
+            for col in range(self.COLS):
+                if all(self.grid[row + i][col] == piece for i in range(3)):
+                    counter += 3
+
+        # Check diagonal (\)
+        for row in range(self.ROWS - 3):
+            for col in range(self.COLS - 3):
+                if all(self.grid[row + i][col + i] == piece for i in range(3)):
+                    counter += 3
+
+        # Check diagonal (/)
+        for row in range(3, self.ROWS):
+            for col in range(self.COLS - 3):
+                if all(self.grid[row - i][col + i] == piece for i in range(3)):
+                    counter += 3
+
+        return counter
+
+    def check_2_in_row(self, piece):
+        #!!!wenn´s funktioniert, nicht anrühren!!!
+
+        counter = 0
+
+        # Check horizontal
+        for row in range(self.ROWS):
+            for col in range(self.COLS - 3):
+                if all(self.grid[row][col + i] == piece for i in range(2)):
+                    counter += 2
+
+        # Check vertical
+        for row in range(self.ROWS - 3):
+            for col in range(self.COLS):
+                if all(self.grid[row + i][col] == piece for i in range(2)):
+                    counter += 2
+
+        # Check diagonal (\)
+        for row in range(self.ROWS - 3):
+            for col in range(self.COLS - 3):
+                if all(self.grid[row + i][col + i] == piece for i in range(2)):
+                    counter += 2
+
+        # Check diagonal (/)
+        for row in range(3, self.ROWS):
+            for col in range(self.COLS - 3):
+                if all(self.grid[row - i][col + i] == piece for i in range(2)):
+                    counter += 2
+
+        return counter

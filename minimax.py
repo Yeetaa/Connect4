@@ -1,5 +1,6 @@
 import random
 from ai_player import AI_Player
+import time
 
 class Minimax_AI_Player(AI_Player):
     """Findet den besten Zug via Rekursion"""
@@ -60,11 +61,28 @@ class Minimax_AI_Player(AI_Player):
             return best_col, min_score
 
     def evaluate_board(self, board):
-        """Assigns a score based on AI's advantage."""
-        if board.check_win(self.piece):
-            return 1000  # AI gewinnt
-        elif board.check_win('X' if self.piece == 'O' else 'O'):
-            return -1000  # Gegner gewinnt
-        else:
-            return random.randint(-10, 10)  # Evaluation TBD
+        """Evaluiert nächsten Züge"""
+
+        AI = self.piece
+        OPPONENT = 'X' if self.piece == 'O' else 'O'
+
+        #Überprüft ob AI nächsten Zug gewinnen kann
+        if board.check_win(AI):
+            return 1000000
+        elif board.check_win(OPPONENT):
+            return -1000000
+
+        #Checkt ob Gegner nach dem Zug eine dierekt gewinnende Position hat
+        for col in board.get_valid_columns():
+            temp_board = board.copy()
+            temp_board.drop_piece(col, OPPONENT)
+            if temp_board.check_win(OPPONENT):
+                return -900000
+
+        #Berechnung der Stellung anhand von 2er und 3er Reihen
+        temp = (board.check_3_in_row(AI) * 100) + (board.check_2_in_row(AI) * 10)
+        temp -= (board.check_3_in_row(OPPONENT) * 90) + (board.check_2_in_row(OPPONENT) * 9)  #Blockieren ist weniger wichtig, sofern Gegner nicht gewinnen kann 
+
+        return temp
+
 
