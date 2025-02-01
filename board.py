@@ -27,8 +27,8 @@ class Board:
                 self.last_piece_col = col
                 self.grid[row][col] = piece
                 return True
-        return False  # Column ist voll (so wie ich)
-        #Placed das Piece oder gibt FALSE zurück
+        return False  # Spalte ist voll
+        #Setzt das Piece oder gibt FALSE zurück
 
     def remove_last_piece(self):
         self.grid[self.last_piece_row][self.last_piece_col] = self.EMPTY
