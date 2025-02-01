@@ -30,7 +30,7 @@ class Minimax_AI_Player(AI_Player):
         if maximizing:
             # Maximiert die Siegeschancen
             max_score = float('-inf')
-            best_col = random.choice(valid_columns) #Random falls es keinen guten Zug gibt
+            best_col = random.choice(valid_columns) #Random, um einen Wert zu haben. Dieser wird aber überschrieben
 
             for col in valid_columns:
                 temp_board = board.copy()
@@ -44,7 +44,7 @@ class Minimax_AI_Player(AI_Player):
             return best_col, max_score
 
         else:
-            # Minimiert den gegnerischen besten Zug
+            # Minimiert die gegnerischen Siegeschancen
             min_score = float('inf')
             best_col = random.choice(valid_columns)
             opponent_piece = 'X' if self.piece == 'O' else 'O'
@@ -62,6 +62,7 @@ class Minimax_AI_Player(AI_Player):
 
     def evaluate_board(self, board):
         """Evaluiert nächsten Züge"""
+        """Zahlen sind experimentell anpassbar"""
 
         AI = self.piece
         OPPONENT = 'X' if self.piece == 'O' else 'O'
@@ -72,7 +73,7 @@ class Minimax_AI_Player(AI_Player):
         elif board.check_win(OPPONENT):
             return -1000000
 
-        #Checkt ob Gegner nach dem Zug eine dierekt gewinnende Position hat
+        #Checkt ob Gegner nach dem Zug eine direkt gewinnende Position hat
         for col in board.get_valid_columns():
             temp_board = board.copy()
             temp_board.drop_piece(col, OPPONENT)
@@ -81,7 +82,7 @@ class Minimax_AI_Player(AI_Player):
 
         #Berechnung der Stellung anhand von 2er und 3er Reihen
         temp = (board.check_3_in_row(AI) * 100) + (board.check_2_in_row(AI) * 10)
-        temp -= (board.check_3_in_row(OPPONENT) * 90) + (board.check_2_in_row(OPPONENT) * 9)  #Blockieren ist weniger wichtig, sofern Gegner nicht gewinnen kann 
+        temp -= (board.check_3_in_row(OPPONENT) * 90) + (board.check_2_in_row(OPPONENT) * 9)  #Blockieren ist weniger wichtig, sofern Gegner nicht gewinnen kann
 
         return temp
 
