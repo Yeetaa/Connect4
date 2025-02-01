@@ -16,9 +16,18 @@ class Board:
         print("\033c", end="")  #Cleared die Konsole zwischen Zügen
         print("Vier In Einer Reihe Gewinnt Das Spiel!")
         for row in reversed(self.grid):  # Print top-down Board
-            print(" ".join(row))
+            for part in row:
+                if part == ".":
+                    print("\033[97m●\033[0m", end=" ")
+                if part == "X":
+                    print("\033[91mX\033[0m", end=" ")
+                if part == "O":
+                    print("\033[32mO\033[0m", end=" ")
+
+            print("\n", end="")
+
         print("-------------")
-        print("0 1 2 3 4 5 6")  # Column numbers
+        print("0 1 2 3 4 5 6")  #Spalten Nummern
 
     def drop_piece(self, col, piece):
         for row in range(self.ROWS):

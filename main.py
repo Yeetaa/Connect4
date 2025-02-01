@@ -52,6 +52,7 @@ def play_game():
                 time.sleep(1)
                 break
         else:
+            time.sleep(0.7) #FAKE Delay um Zug zu visualisieren 
             player2.make_move(board)  # Placeholder for AI logic
             if board.check_win(player2.piece):
                 board.print_board()
@@ -60,6 +61,7 @@ def play_game():
 
         board.print_board()
         turn = 1 - turn  # Switch turns
+
 
 
 # Run the game
