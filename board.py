@@ -1,4 +1,6 @@
 import copy
+import constants
+from constants import debug_mode
 
 
 class Board:
@@ -13,7 +15,8 @@ class Board:
         #Initialisierung mit "." in jedem Slot
 
     def print_board(self):
-        print("\033c", end="")  #Cleared die Konsole zwischen Zügen
+        if not debug_mode:
+            print("\033c", end="")  #Cleared die Konsole zwischen Zügen
         print("Vier In Einer Reihe Gewinnt Das Spiel!")
         for row in reversed(self.grid):  # Print top-down Board
             for part in row:

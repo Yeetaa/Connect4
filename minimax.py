@@ -2,12 +2,13 @@ import random
 from ai_player import AI_Player
 import time
 
+
 class Minimax_AI_Player(AI_Player):
     """Findet den besten Zug via Rekursion"""
 
     def __init__(self, piece, depth=3):
         super().__init__(piece)
-        self.depth = depth  # How many moves ahead to calculate
+        self.depth = 3  # How many moves ahead to calculate
 
     def make_move(self, board):
         valid_columns = board.get_valid_columns()
@@ -36,10 +37,12 @@ class Minimax_AI_Player(AI_Player):
                 temp_board = board.copy()
                 temp_board.drop_piece(col, self.piece)
                 score = self.minimax(temp_board, depth-1, False)[1]
+                print(f"Column {col} got score {score} at depth {depth}")  # Check how scores are being handled
 
-                if score > max_score:
-                    max_score = score
-                    best_col = col
+                if score >= -900000:
+                    if score > max_score:
+                        max_score = score
+                        best_col = col
 
             return best_col, max_score
 
@@ -54,9 +57,10 @@ class Minimax_AI_Player(AI_Player):
                 temp_board.drop_piece(col, opponent_piece)
                 score = self.minimax(temp_board, depth-1, True)[1]
 
-                if score < min_score:
-                    min_score = score
-                    best_col = col
+                if score <= 900000:
+                    if score < min_score:
+                        min_score = score
+                        best_col = col
 
             return best_col, min_score
 
@@ -73,6 +77,13 @@ class Minimax_AI_Player(AI_Player):
         elif board.check_win(OPPONENT):
             return -1000000
 
+        for col in board.get_valid_columns():
+            temp_board = board.copy()
+            temp_board.drop_piece(col, AI)  # AI makes a move
+
+            if temp_board.check_win(OPPONENT):  # Opponent wins next turn
+                return -950000  # Slightly worse than an instant loss
+
         #Checkt ob Gegner nach dem Zug eine direkt gewinnende Position hat
         for col in board.get_valid_columns():
             temp_board = board.copy()
@@ -80,10 +91,11 @@ class Minimax_AI_Player(AI_Player):
             if temp_board.check_win(OPPONENT):
                 return -900000
 
+
         #Berechnung der Stellung anhand von 2er und 3er Reihen
         temp = (board.check_3_in_row(AI) * 100) + (board.check_2_in_row(AI) * 10)
         temp -= (board.check_3_in_row(OPPONENT) * 90) + (board.check_2_in_row(OPPONENT) * 9)  #Blockieren ist weniger wichtig, sofern Gegner nicht gewinnen kann
-
         return temp
+
 
 

@@ -1,6 +1,6 @@
-import time
 from random import Random
 import time
+import constants
 
 from board import Board
 from player import Player
