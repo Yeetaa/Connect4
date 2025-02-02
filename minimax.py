@@ -1,6 +1,8 @@
 import random
 from ai_player import AI_Player
 import time
+import constants
+from constants import debug_mode
 
 
 class Minimax_AI_Player(AI_Player):
@@ -18,6 +20,7 @@ class Minimax_AI_Player(AI_Player):
 
         # Nutzt Minimax um den besten Zug zu finden
         best_col = self.minimax(board, self.depth, True)[0]
+        self.append_to_log(best_col)
         board.drop_piece(best_col, self.piece)
 
     def minimax(self, board, depth, maximizing):
@@ -37,7 +40,8 @@ class Minimax_AI_Player(AI_Player):
                 temp_board = board.copy()
                 temp_board.drop_piece(col, self.piece)
                 score = self.minimax(temp_board, depth-1, False)[1]
-                print(f"Column {col} got score {score} at depth {depth}")  # Check how scores are being handled
+                if debug_mode:
+                    print(f"Column {col} got score {score} at depth {depth}")  # Check how scores are being handled
 
                 if score >= -900000:
                     if score > max_score:

@@ -10,3 +10,7 @@ class AI_Player:
     def make_move(self, board):
         pass
 
+    def append_to_log(self, message):
+        with open("log.txt", "a") as log:
+            log.write(f"Player {self.piece}: Column {message}\n ")
+            return

@@ -15,6 +15,8 @@ from debugger import Debugger
 def play_game():
     """Main game loop."""
 
+    open('log.txt', 'w').close()
+
     board = Board()
     player1 = Player('X')  # Spieler
 

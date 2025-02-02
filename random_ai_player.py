@@ -15,4 +15,5 @@ class Random_AI_Player(AI_Player):
 
         col = random.choice(valid_columns)  # Pick a random valid column
         board.drop_piece(col, self.piece)
+        self.append_to_log(col)
         print(f"Random AI placed in Spalte {col}")

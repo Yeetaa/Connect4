@@ -16,6 +16,7 @@ class Rath_AI_Player(AI_Player):
 
         #Nutzt Minimax, um den besten Zug zu finden
         best_col, _ = self.rath_minimax(board, 6, float('-inf'), float('inf'), True)  #Rückgabe von (best_col, eval)
+        self.append_to_log(best_col)
         board.drop_piece(best_col, self.piece)
 
     def rath_minimax(self, board, depth, alpha, beta, maximizing_player):
