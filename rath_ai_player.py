@@ -1,4 +1,6 @@
 import random
+
+import board
 from ai_player import *
 
 
@@ -6,45 +8,58 @@ class Rath_AI_Player(AI_Player):
     def __init__(self, piece):
         super().__init__(piece)
 
-
     def make_move(self, board):
-
         valid_columns = board.get_valid_columns()
         if not valid_columns:
-            print(f"Es gibt keine möglichen Züge mehr!")
+            print("Es gibt keine möglichen Züge mehr!")
+            return
 
-        for col in valid_columns:
-            temp_board = self.simulate_move(board, col, self.piece)
-            #Simuliert den Zug auf einem kopierten Board
-            #Geht jede Spalte einmal durch
-            if temp_board:
-                board.drop_piece(col, self.piece)
-        col = random.choice(valid_columns)
-        board.drop_piece(col, self.piece)
+        #Nutzt Minimax, um den besten Zug zu finden
+        best_col, _ = self.rath_minimax(board, 6, float('-inf'), float('inf'), True)  #Rückgabe von (best_col, eval)
+        board.drop_piece(best_col, self.piece)
 
+    def rath_minimax(self, board, depth, alpha, beta, maximizing_player):
+        if depth == 0 or board.check_win(self.piece) or board.check_win(self.opponent_piece):
+            return None, self.static_evaluation(board)  #Rückgabe von (None, eval)
 
+        valid_columns = board.get_valid_columns()
+        if maximizing_player:
+            maxEval = float('-inf')
+            best_col = valid_columns[0]  #Standardwert, falls keine gültigen Züge
+            for col in valid_columns:
+                temp_board = board.copy()
+                temp_board.drop_piece(col, self.piece)
+                _, eval = self.rath_minimax(temp_board, depth - 1, alpha, beta, False)  #Rückgabe von (best_col, eval)
+                if eval > maxEval:
+                    maxEval = eval
+                    best_col = col
+                alpha = max(alpha, eval)
+                if beta <= alpha:
+                    break
+            return best_col, maxEval  #Rückgabe von (best_col, maxEval)
 
-
-
-
-
-    def simulate_move(self, board, col, piece):
-        """Simuliert Zug mit Hilfe von kopiertem Board"""
-        temp_board = board.copy()  # Kopiert Board
-        temp_board.drop_piece(col, piece)  # Simuliert den Move
-        if temp_board.check_win(self.piece):
-            return True
         else:
-            opponent_piece = 'X' if self.piece == 'O' else 'O'
-            temp_board.remove_last_piece()
-            temp_board.drop_piece(col, opponent_piece)
-            if temp_board.check_win(opponent_piece):
-                return True
-            else:
-                return False
-            #Baisicly Greedy
+            minEval = float('inf')
+            best_col = valid_columns[0]  #Standardwert, falls keine gültigen Züge
+            for col in valid_columns:
+                temp_board = board.copy()
+                temp_board.drop_piece(col, self.opponent_piece)  #Gegnerzug simuliert
+                _, eval = self.rath_minimax(temp_board, depth - 1, alpha, beta, True)  #Rückgabe von (best_col, eval)
+                if eval < minEval:
+                    minEval = eval
+                    best_col = col
+                beta = min(beta, eval)  #Beta wird geupdated
+                if beta <= alpha:
+                    break
+            return best_col, minEval  #Rückgabe von (best_col, minEval)
 
+    def static_evaluation(self, board):
+        if board.check_win(self.piece):
+            return 1000000
 
+        if board.check_win(self.opponent_piece):
+            return -1000000
 
-
-
+        eval = board.check_3_in_row(self.piece) + board.check_2_in_row(self.piece)
+        eval -= board.check_3_in_row(self.opponent_piece) + board.check_2_in_row(self.opponent_piece)
+        return eval

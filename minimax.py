@@ -79,7 +79,7 @@ class Minimax_AI_Player(AI_Player):
 
         for col in board.get_valid_columns():
             temp_board = board.copy()
-            temp_board.drop_piece(col, AI)  # AI makes a move
+            temp_board.drop_piece(col, OPPONENT)  # AI makes a move
 
             if temp_board.check_win(OPPONENT):  # Opponent wins next turn
                 return -950000  # Slightly worse than an instant loss

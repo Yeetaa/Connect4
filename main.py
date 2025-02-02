@@ -3,11 +3,13 @@ import time
 import constants
 
 from board import Board
+from constants import debug_mode
 from player import Player
 from random_ai_player import Random_AI_Player
 from greedy_ai_player import Greedy_AI_Player
 from rath_ai_player import Rath_AI_Player
 from minimax import Minimax_AI_Player
+from debugger import Debugger
 
 
 def play_game():
@@ -34,10 +36,12 @@ def play_game():
     elif player2_selection == "5":
         player2 = Player('O')
         print(f"Du spielst gegen einen anderen Spieler")
+    elif player2_selection == "360":
+        player2 = Debugger('O')
     else:
         print("Fehler")
-
-    time.sleep(2)
+    if not debug_mode:
+        time.sleep(2)
 
     turn = 0  # 0 = Player 1; 1 = AI
 
@@ -52,7 +56,8 @@ def play_game():
                 time.sleep(1)
                 break
         else:
-            time.sleep(0.7) #FAKE Delay um Zug zu visualisieren
+            if not debug_mode:
+                time.sleep(0.7) #FAKE Delay um Zug zu visualisieren
             player2.make_move(board)  # Placeholder for AI logic
             if board.check_win(player2.piece):
                 board.print_board()
