@@ -1,6 +1,5 @@
 import random
 
-import board
 from ai_player import AI_Player
 
 class Greedy_AI_Player(AI_Player):
@@ -28,7 +27,7 @@ class Greedy_AI_Player(AI_Player):
             #Simuliert den Zug auf einem kopierten Board
             #Geht jede Spalte einmal durch
             if temp_board.check_win(self.piece):
-                self.drop_piece(col, self.piece)
+                self.drop_piece(board, col, self.piece)
                 print(f"AI hat gewonnen!")
                 return
 
@@ -39,15 +38,15 @@ class Greedy_AI_Player(AI_Player):
             #Simuliert den Zug auf einem kopierten Board
             #Geht jede Spalte einmal durch
             if temp_board.check_win(opponent_piece):
-                self.drop_piece(col, self.piece)
+                self.drop_piece(board, col, self.piece)
                 return
 
         # 3. Spielt random
         col = random.choice(valid_columns)
-        self.drop_piece(col, self.piece)
+        self.drop_piece(board, col, self.piece)
 
 
-    def drop_piece(self, col, piece):
+    def drop_piece(self, board, col, piece):
         '''Um Ins Log einzutragen'''
         self.append_to_log(col)
         board.drop_piece(col, piece)

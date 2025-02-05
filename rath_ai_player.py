@@ -1,6 +1,6 @@
 import random
 
-import board
+import game_board
 from ai_player import *
 
 

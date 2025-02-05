@@ -1,4 +1,4 @@
-#!/home/enno/workspace/github.com/Yeetaa/Connect4/venv/bin/python3
+#!/home/Enno/PycharmProjects/Connect4/Connect4/venv/bin/python
 
 """Simple FTDI EEPROM configurator.
 """

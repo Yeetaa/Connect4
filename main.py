@@ -2,7 +2,7 @@ from random import Random
 import time
 import constants
 
-from board import Board
+from game_board import Game_Board
 from constants import debug_mode
 from player import Player
 from random_ai_player import Random_AI_Player
@@ -17,7 +17,7 @@ def play_game():
 
     open('log.txt', 'w').close()
 
-    board = Board()
+    board = Game_Board()
     player1 = Player('X')  # Spieler
 
     player2_selection = input(f"Random(1), Greedy(2), Minimax(3), Rath(4) oder Spieler(5): ")
