@@ -6,6 +6,8 @@ from picamera2 import Picamera2
 picam2 = Picamera2()
 picam2.configure(picam2.create_preview_configuration(main={'size': (640, 480)}))
 picam2.start()
+picam2.set_controls({"AwbMode": 4})  # 0 = Auto, 1 = Tungsten, 2 = Fluorescent, 3 = Indoor, 4 = Sunlight, etc.
+
 
 #Wartezeit für die Kamera
 import time
@@ -18,6 +20,9 @@ upper_bound = np.array([140, 255, 255])  # Obere HSV-Grenze
 #Start Stream
 while True:
     frame = picam2.capture_array()
+    
+    #Hausarbeit carried Frabkorrektur
+    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     
     #Konvertiere das Bild in den HSV-Farbraum
     hsv = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
