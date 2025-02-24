@@ -10,7 +10,7 @@ class Minimax_AI_Player(AI_Player):
 
     def __init__(self, piece, depth=3):
         super().__init__(piece)
-        self.depth = 3  # How many moves ahead to calculate
+        self.depth = 2  # How many moves ahead to calculate
 
     def make_move(self, board):
         valid_columns = board.get_valid_columns()

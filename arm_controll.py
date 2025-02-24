@@ -1,46 +1,20 @@
-import cv2
-import numpy as np
-from picamera2 import Picamera2
-
-#Initialisiere die Kamera
-picam2 = Picamera2()
-picam2.configure(picam2.create_preview_configuration(main={'size': (640, 480)}))
-picam2.start()
-picam2.set_controls({"AwbMode": 4})  # 0 = Auto, 1 = Tungsten, 2 = Fluorescent, 3 = Indoor, 4 = Sunlight, etc.
-
-
-#Wartezeit für die Kamera
+from adafruit_servokit import ServoKit
 import time
-time.sleep(2)
 
-#Definiere die Farbe, die herausgefiltert werden soll (Blau)
-lower_bound = np.array([100, 150, 50])  # Untere HSV-Grenze
-upper_bound = np.array([140, 255, 255])  # Obere HSV-Grenze
+kit = ServoKit(channels=16)
 
-#Start Stream
-while True:
-    frame = picam2.capture_array()
-    
-    #Hausarbeit carried Frabkorrektur
-    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    
-    #Konvertiere das Bild in den HSV-Farbraum
-    hsv = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
-    
-    #Erstelle eine Maske 
-    mask = cv2.inRange(hsv, lower_bound, upper_bound)
-    
-    #Wende die Maske auf das Bild an
-    result = cv2.bitwise_and(frame, frame, mask=mask)
-    
-    #Zeigt Bilder
-    cv2.imshow("Original", frame)
-    cv2.imshow("Maske", result)
-    
-    #Endbedingung
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+kit.servo[0].set_pulse_width_range(500, 2500)
+kit.servo[1].set_pulse_width_range(1000, 2000)
 
-#Muss so
-cv2.destroyAllWindows()
-picam2.stop()
+kit.servo[1].angle = 90 #Greifer
+#kit.servo[2].angle = 70 #Arm 2 15-75 °
+#kit.servo[3].angle = 40 #Arm 1 0-40°
+kit.servo[0].angle = 90 #Base 90° = gerade
+
+time.sleep(0.5)
+
+
+kit.servo[0].angle = None
+kit.servo[1].angle = None
+kit.servo[2].angle = None
+kit.servo[3].angle = None
